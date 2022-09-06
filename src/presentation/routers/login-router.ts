@@ -1,9 +1,14 @@
 import { HttpResponse } from '@/presentation/helpers'
 
 export class LoginRouter {
-  constructor(private readonly authUseCase: any) {}
+  constructor(private readonly authUseCase?: any) {}
   route(httpRequest?: LoginRouter.Params): LoginRouter.Result | undefined {
-    if (!httpRequest || !httpRequest.body) {
+    if (
+      !httpRequest ||
+      !httpRequest.body ||
+      !this.authUseCase ||
+      !this.authUseCase.auth
+    ) {
       return HttpResponse.serverError()
     }
     const { email, password } = httpRequest.body
