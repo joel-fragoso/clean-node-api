@@ -2,7 +2,9 @@ import { HttpResponse } from '@/presentation/helpers'
 
 export class LoginRouter {
   constructor(private readonly authUseCase?: any) {}
-  route(httpRequest: LoginRouter.Params): LoginRouter.Result | undefined {
+  async route(
+    httpRequest: LoginRouter.Params
+  ): Promise<LoginRouter.Result | undefined> {
     try {
       const { email, password } = httpRequest.body
       if (!email) {
@@ -11,7 +13,7 @@ export class LoginRouter {
       if (!password) {
         return HttpResponse.badRequest('password')
       }
-      const accessToken = this.authUseCase.auth(email, password)
+      const accessToken = await this.authUseCase.auth(email, password)
       if (!accessToken) {
         return HttpResponse.unauthorizedError()
       }
