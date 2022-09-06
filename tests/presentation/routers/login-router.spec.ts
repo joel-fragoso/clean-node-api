@@ -1,5 +1,5 @@
 import { LoginRouter } from '@/presentation/routers'
-import { MissingParamError } from '@/presentation/helpers'
+import { MissingParamError, UnauthorizedError } from '@/presentation/helpers'
 
 type SutType = {
   sut: LoginRouter
@@ -83,5 +83,6 @@ describe('Login Router', () => {
     }
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse?.statusCode).toBe(401)
+    expect(httpResponse?.body).toEqual(new UnauthorizedError())
   })
 })
